@@ -1,0 +1,18 @@
+server:
+  port: 9003
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  application:
+    name: reservation-service
+  main:
+    allow-bean-definition-overriding: true
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+
