@@ -78,27 +78,47 @@ public class ReservationController {
         return availableTimes;
     }
 
-    // 주어진 시작 시간과 종료 시간으로 예약 가능한 30분 간격의 시간대를 생성하는 메서드
+    // 주어진 시작 시간과 종료 시간으로 예약 가능한 30분 간격의 시간대를 생성하는 메서드 + 6월 20일 추가 수정
     private List<String> getAvailableTimeSlots(String start, String end) {
         List<String> timeSlots = new ArrayList<>();
-
-        // 시작 시간과 종료 시간을 정수로 변환
+        // 시작 시간과 종료 시간이 null이거나 비어있는 경우 빈 리스트를 반환합니다.
+        if (start == null || end == null || start.isEmpty() || end.isEmpty()) {
+            return timeSlots;
+        }
+        // 시작 시간과 종료 시간을 정수로 변환합니다 (HHMM 형식).
         int startTime = Integer.parseInt(start);
         int endTime = Integer.parseInt(end);
 
-        // 점심시간 설정 (예: 1300-1400)
         int lunchStart = 1300;
         int lunchEnd = 1400;
+        // 시작 시간부터 종료 시간까지 30분 간격으로 시간대를 생성합니다.
+        while (startTime < endTime) {
+            int startHour = startTime / 100; // 시작 시간의 시(HH) 부분
+            int startMinute = startTime % 100; // 시작 시간의 분(MM) 부분
 
-        // 30분 간격의 시간대를 생성
-        for (int time = startTime; time < endTime; time += 50) {
-            if (time >= lunchStart && time < lunchEnd) {
-                // 점심시간 동안은 예약 불가로 설정
-                continue;
+            // 다음 시간대를 계산합니다.
+            int nextTime = startTime + 30; // 30분 후 시간
+            int nextHour = nextTime / 100; // 다음 시간대의 시(HH) 부분
+            int nextMinute = nextTime % 100; // 다음 시간대의 분(MM) 부분
+
+            // 분이 60분을 넘어갈 경우 시간을 조정합니다.
+            if (nextMinute >= 60) {
+                nextHour += 1;
+                nextMinute -= 60;
             }
-            String startSlot = String.format("%04d", time);
-            String endSlot = String.format("%04d", time + 50);
-            timeSlots.add(startSlot + "-" + endSlot); // 예약 가능한 시간대를 리스트에 추가
+
+            // 다음 시간대가 종료 시간을 넘어가거나 점심 시간 동안이면 건너뜁니다.
+            if (nextHour * 100 + nextMinute > endTime || (startTime >= lunchStart && startTime < lunchEnd)) {
+                startTime = nextHour * 100 + nextMinute; // 다음 시간대로 이동
+                continue; // 루프의 다음 반복으로 건너뜁니다.
+            }
+
+            // 시간대를 "HHMM-HHMM" 형식으로 문자열로 변환하여 리스트에 추가합니다.
+            String timeSlot = String.format("%02d%02d-%02d%02d", startHour, startMinute, nextHour, nextMinute);
+            timeSlots.add(timeSlot);
+
+            // 다음 시간대로 이동합니다.
+            startTime = nextHour * 100 + nextMinute;
         }
 
         return timeSlots;
