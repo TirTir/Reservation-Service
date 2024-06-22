@@ -16,3 +16,18 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
 
+# 모니터링
+management:
+  endpoints:
+    web:
+      base-path: /reservation-service/actuator
+      exposure:
+        include: refresh, beans, health, info, metrics, prometheus  # 노출할 Actuator 엔드포인트 목록
+  endpoint:
+    health:
+      show-details: always  # 모든 세부사항을 항상 표시
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
