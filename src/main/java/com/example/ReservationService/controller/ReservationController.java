@@ -57,6 +57,8 @@ public class ReservationController {
         availableTimes.setDutyTel1(dutyTimes.getDutyTel1());
         availableTimes.setDutyTel3(dutyTimes.getDutyTel3());
         availableTimes.setDgidIdName(dutyTimes.getDgidIdName());
+        availableTimes.setWgs84Lon(dutyTimes.getWgs84Lon());
+        availableTimes.setWgs84Lat(dutyTimes.getWgs84Lat());
 
         return ResponseEntity.ok(availableTimes);
     }

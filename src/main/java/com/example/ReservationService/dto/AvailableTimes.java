@@ -21,4 +21,7 @@ public class AvailableTimes {
     private String dutyTel1; // 대표전화
     private String dutyTel3; // 응급실 전화
     private String dgidIdName; // 진료과목
+
+    private String wgs84Lat; // 위도
+    private String wgs84Lon; // 경도
 }

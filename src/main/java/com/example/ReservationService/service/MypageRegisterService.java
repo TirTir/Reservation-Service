@@ -95,7 +95,8 @@ public class MypageRegisterService {
             dataDate.setDutyTime8c(item.path("dutyTime8c").asText());
             dataDate.setDutyTime8s(item.path("dutyTime8s").asText());
 
-            dataDate.setDgidIdName(item.path("dgidIdName").asText());
+            dataDate.setWgs84Lat(item.path("wgs84Lat").asText());
+            dataDate.setWgs84Lon(item.path("wgs84Lon").asText());
 
         } catch (Exception e) {
             logger.error("Error parsing XML response", e);
