@@ -25,6 +25,11 @@ ext {
 	set('springCloudVersion', "2023.0.2")
 }
 
+bootJar {
+    archiveBaseName = 'reservation-service'  // 실행 가능한 JAR 파일 이름 설정
+    archiveVersion = ''                // 버전 정보 제거
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
